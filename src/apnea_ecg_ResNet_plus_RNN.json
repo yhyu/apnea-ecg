@@ -1,0 +1,241 @@
+{
+    "layers": [
+        {
+            "layer": "ZeroPadding1D",
+            "padding": 5
+        },
+        {
+            "layer": "Conv1D",
+            "filters": 64,
+            "kernel": 10,
+            "strides": 2,
+            "padding": "valid"
+        },
+        {
+            "layer": "ZeroPadding1D",
+            "padding": 2
+        },
+        {
+            "layer": "MaxPooling1D",
+            "size": 3,
+            "strides": 2
+        },
+        {
+            "layer": "ResConv1D",
+            "parameters": [64, 64, 256, 5, 1, 2]
+        },
+        {
+            "layer": "ResID1D",
+            "parameters": [64, 64, 256, 5, 1, 2, false]
+        },
+        {
+            "layer": "ResID1D",
+            "parameters": [64, 64, 256, 5, 1, 2, false]
+        },
+        {
+            "layer": "ResID1D",
+            "parameters": [64, 64, 256, 5, 2, 2, true]
+        },
+        {
+            "layer": "ResConv1D",
+            "parameters": [128, 128, 512, 5, 1, 2]
+        },
+        {
+            "layer": "ResID1D",
+            "parameters": [128, 128, 512, 5, 1, 2, false]
+        },
+        {
+            "layer": "ResID1D",
+            "parameters": [128, 128, 512, 5, 1, 2, false]
+        },
+        {
+            "layer": "ResID1D",
+            "parameters": [128, 128, 512, 5, 2, 2, true]
+        },
+        {
+            "layer": "ResConv1D",
+            "parameters": [256, 256, 1024, 5, 1, 2]
+        },
+        {
+            "layer": "ResID1D",
+            "parameters": [256, 256, 1024, 5, 1, 2, false]
+        },
+        {
+            "layer": "ResID1D",
+            "parameters": [256, 256, 1024, 5, 1, 2, false]
+        },
+        {
+            "layer": "ResID1D",
+            "parameters": [256, 256, 1024, 5, 1, 2, false]
+        },
+        {
+            "layer": "ResID1D",
+            "parameters": [256, 256, 1024, 5, 1, 2, false]
+        },
+        {
+            "layer": "ResID1D",
+            "parameters": [256, 256, 1024, 5, 1, 2, false]
+        },
+        {
+            "layer": "ResID1D",
+            "parameters": [256, 256, 1024, 5, 2, 2, true]
+        },
+        {
+            "layer": "ResConv1D",
+            "parameters": [512, 512, 2048, 5, 1, 2]
+        },
+        {
+            "layer": "ResID1D",
+            "parameters": [512, 512, 2048, 5, 1, 2, false]
+        },
+        {
+            "layer": "ResID1D",
+            "parameters": [512, 512, 2048, 5, 1, 2, false]
+        },
+        {
+            "layer": "ResID1D",
+            "parameters": [512, 512, 2048, 5, 1, 2, false]
+        },
+        {
+            "layer": "BatchNormalization",
+            "epsilon": 1e-05
+        },
+        {
+            "layer": "Activation",
+            "activation": "relu"
+        }
+    ],
+    "blocks": {
+        "ResID1D": {
+            "parameters": ["f1", "f2", "f3", "kernel", "stride", "zero_padding", "shortcut_layer"],
+            "layers": [
+                {
+                    "layer": "BatchNormalization",
+                    "epsilon": 1e-05
+                },
+                {
+                    "layer": "Activation",
+                    "activation": "relu"
+                },
+                {
+                    "layer": "Conv1D",
+                    "filters": "f1",
+                    "kernel": 1,
+                    "padding": "valid"
+                },
+                {
+                    "layer": "BatchNormalization",
+                    "epsilon": 1e-05
+                },
+                {
+                    "layer": "Activation",
+                    "activation": "relu"
+                },
+                {
+                    "layer": "ZeroPadding1D",
+                    "padding": "zero_padding"
+                },
+                {
+                    "layer": "Conv1D",
+                    "filters": "f2",
+                    "kernel": "kernel",
+                    "strides": "stride",
+                    "padding": "valid"
+                },
+                {
+                    "layer": "BatchNormalization",
+                    "epsilon": 1e-05
+                },
+                {
+                    "layer": "Activation",
+                    "activation": "relu"
+                },
+                {
+                    "layer": "Conv1D",
+                    "filters": "f3",
+                    "kernel": 1,
+                    "padding": "valid"
+                }
+            ],
+            "shortcut": {
+                "merge":  {
+                    "layer": "Add"
+                },
+                "layers": [],
+                "shortcut_layer": [
+                    {
+                        "layer": "MaxPooling1D",
+                        "size": 1,
+                        "strides": "stride"
+                    }
+                ]
+            }
+        },
+        "ResConv1D": {
+            "parameters": ["f1", "f2", "f3", "kernel", "stride", "zero_padding"],
+            "layers": [
+                {
+                    "layer": "BatchNormalization",
+                    "epsilon": 1e-05
+                },
+                {
+                    "layer": "Activation",
+                    "activation": "relu"
+                },
+                {
+                    "layer": "Conv1D",
+                    "filters": "f1",
+                    "kernel": 1,
+                    "padding": "valid"
+                },
+                {
+                    "layer": "BatchNormalization",
+                    "epsilon": 1e-05
+                },
+                {
+                    "layer": "Activation",
+                    "activation": "relu"
+                },
+                {
+                    "layer": "ZeroPadding1D",
+                    "padding": "zero_padding"
+                },
+                {
+                    "layer": "Conv1D",
+                    "filters": "f2",
+                    "kernel": "kernel",
+                    "strides": "stride",
+                    "padding": "valid"
+                },
+                {
+                    "layer": "BatchNormalization",
+                    "epsilon": 1e-05
+                },
+                {
+                    "layer": "Activation",
+                    "activation": "relu"
+                },
+                {
+                    "layer": "Conv1D",
+                    "filters": "f3",
+                    "kernel": 1,
+                    "padding": "valid"
+                }
+            ],
+            "shortcut": {
+                "merge": {
+                    "layer": "Add"
+                },
+                "layers": [
+                    {
+                        "layer": "Conv1D",
+                        "filters": "f3",
+                        "kernel": 1,
+                        "strides": "stride",
+                        "padding": "valid"
+                    }
+                ]
+            }
+        }
+    }
+}
